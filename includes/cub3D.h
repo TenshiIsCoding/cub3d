@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/09/28 19:08:51 by azaher           ###   ########.fr       */
+/*   Updated: 2023/09/29 18:44:27 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct s_game
 }   t_game;
 
 void print_error(char *error);
+void init_game(t_game *game);
+int ft_strcmp(const char *s1, const char *s2);
 
 
 #endif
