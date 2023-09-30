@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:14:10 by azaher            #+#    #+#             */
-/*   Updated: 2023/09/29 18:14:29 by azaher           ###   ########.fr       */
+/*   Updated: 2023/09/30 11:48:50 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,30 @@ int ft_strcmp(const char *s1, const char *s2)
 	else if (str1[i] < str2[i])
 		return (-1);
 	return (0);
+}
+
+void	free_2d(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (arr)
+	{
+		while(arr[i])
+			free(arr[i++]);
+		free(arr);
+	}
+}
+
+int	arrlen(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (arr)
+	{
+		while(arr[i])
+			i++;
+	}
+	return (i);
 }
