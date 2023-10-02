@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 17:14:47 by azaher            #+#    #+#             */
-/*   Updated: 2023/09/30 14:43:31 by azaher           ###   ########.fr       */
+/*   Updated: 2023/10/02 17:53:22 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,79 @@ int check_characters(char *line)
 	return (1);
 }
 
+int	count_commas(char *chargb)
+{
+	int	i;
+	int	comma;
+
+	i = 0;
+	comma = 0;
+	while (chargb[i])
+	{
+		if (chargb[i] == ',')
+			comma++;
+		if (chargb[i] != ',' && chargb[i] != '\n' && !ft_isdigit(chargb[i]))
+			return(!ft_printf("cub3d: Invalid colors!\n"));	
+	}
+	return (comma);
+}
+
+int	*rgb_parse(char *rgb)
+{
+	int	i;
+	int	color;
+	int	*ret;
+	char	**rgb_split;
+
+	i = -1;
+	ret = malloc(3 * sizeof(unsigned char));
+	rgb_split = ft_split(rgb, ',');
+	if(arrlen(rgb_split) != 3)
+	{
+		free_2d(rgb_split);
+		return (NULL);
+	}
+	while(rgb_split[i++])
+	{
+		color = ft_atoi(rgb_split[i]);
+		if (color >= 0 && color <= 255)
+			ret[i] = color;
+		else
+		{
+			free_2d(rgb_split);
+			return(NULL);
+		}
+	}
+	return (ret);
+}
+
+int	parse_color(t_data *data, char *chargb, char fill)
+{
+	int		*rgb;
+	int		pixel;
+	int		i;
+
+	i = 0;
+	if (!chargb || count_commas(chargb) != 2)
+		return (1);
+	rgb = rgb_parse(chargb);
+	if (!rgb)
+		return (1);
+	pixel = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
+	if (fill == 'F')
+	{
+		data->f = pixel;
+		return (0);
+	}
+	if (fill == 'C')
+	{
+		data->c = pixel;
+		return (0);
+	}
+	free(rgb);
+	return (1);
+}
+
 int store_check(char **arr, t_data *data)
 {
 	if (arrlen(arr) != 2)
@@ -63,6 +136,7 @@ int store_check(char **arr, t_data *data)
 	}
 	else
 		return (!ft_printf("cub3D: Invalid element\n"));
+	return (1);
 }
 
 int check_new_elements(char *line, t_data *data)
@@ -80,8 +154,12 @@ int check_new_elements(char *line, t_data *data)
 		return(free(line), 1);
 	arr = ft_split(line, ' ');
 	free(line);
+	if(!arr)
+		return (0);
 	if (store_check(arr, &data))
-	{}
+		return(free_2d(arr), 1);
+	return (free_2d(arr), 0);
+	
 }
 
 int read_map(t_game *game, char *map)
@@ -99,6 +177,9 @@ int read_map(t_game *game, char *map)
 	{
 		if (!check_new_elements(line, &game->data))
 			return (0);
-		
+		line = get_next_line(fd);
+		if(!line)
+			break;
 	}
+	
 }

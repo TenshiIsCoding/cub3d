@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/09/30 14:48:38 by azaher           ###   ########.fr       */
+/*   Updated: 2023/10/02 13:42:22 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ typedef struct s_data
 	char	*W_texture;
 	char	*S_texture;
 	int 	f;
-	int		floorc;
 	int 	c;
-	int		ceilingc;
 }  t_data;
 
 typedef struct s_game
