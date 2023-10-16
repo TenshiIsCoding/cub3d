@@ -6,12 +6,12 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/10/02 13:42:22 by azaher           ###   ########.fr       */
+/*   Updated: 2023/10/16 14:26:39 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
-#define CUB3D_H
+#define	CUB3D_H
 
 #include "../libraries/ft_printf/ft_printf.h"
 #include "../libraries/libft/libft.h"
@@ -24,10 +24,10 @@
 
 typedef struct s_map
 {
-	char    **map;
-	int     W_map;
-	int     H_map;
-	int     S_map;
+	char	**map;
+	int		W_map;
+	int		H_map;
+	int		S_map;
 }   t_map;
 
 typedef struct s_player
