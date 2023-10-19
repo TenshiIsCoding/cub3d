@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 10:05:28 by azaher            #+#    #+#             */
-/*   Updated: 2022/11/08 14:01:57 by azaher           ###   ########.fr       */
+/*   Updated: 2023/10/19 10:58:35 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
 # include<stdlib.h>
 # include<stdio.h>
 # include <unistd.h>
+# include "../libft/libft.h"
 
 size_t	ft_strlen(const char *s);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strchr(const char *str, int c);
 char	*ft_mstrcat(char *s1, char *s2, char *dest);
-char	*ft_strjoin(char *s1, char *s2);
+// char	*ft_strjoin(char *s1, char *s2);
 void	free_buff(char **p);
 char	*get_next_line(int fd);
 

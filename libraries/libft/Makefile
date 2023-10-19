@@ -6,7 +6,7 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/09 16:42:08 by azaher            #+#    #+#              #
-#    Updated: 2023/05/06 22:56:15 by azaher           ###   ########.fr        #
+#    Updated: 2023/10/19 10:54:23 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ all : $(NAME)
 $(NAME) : ${OBJS}
 	echo "\033[0;32m"LIBFT is compiled!
 	${AR} ${NAME} ${OBJS}
+	echo "\033[0m"
 
 clean :
 	rm -f ${OBJS}
