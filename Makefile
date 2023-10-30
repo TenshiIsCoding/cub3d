@@ -6,13 +6,12 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/27 16:49:53 by azaher            #+#    #+#              #
-#    Updated: 2023/10/19 11:48:21 by azaher           ###   ########.fr        #
+#    Updated: 2023/10/20 15:49:36 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS = src/main.c \
 	   src/engine/engine_start.c
-
 CFLAGS= -Wall -Wextra -Werror -I ./libraries/libft
 FLAGS = -framework opengl ${LIBFT} ${LIBMLX} -framework Appkit
 NAME = cub3D
@@ -37,9 +36,11 @@ clean :
 	make -C  ./libraries/minilibx clean
 	rm -rf ${LIBFT}
 	rm -rf ${LIBMLX}
+	rm -f $(OBJ)  
 
 fclean : clean
 	make -C ./libraries/libft fclean
 	rm -f $(NAME)
+	rm -f $(OBJ)  
 
 re : fclean all

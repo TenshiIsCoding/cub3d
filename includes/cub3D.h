@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/10/19 15:12:23 by azaher           ###   ########.fr       */
+/*   Updated: 2023/10/20 15:41:27 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <math.h>
 # include <stdlib.h>
 # include <mlx.h>
 # define DISP_SIZE 64
@@ -35,6 +36,9 @@ typedef struct s_player
 {
 	float	xpos;
 	float	ypos;
+	int		radius;
+	int		turn_dir;
+	int		walk_dir;
 	float	velocity;
 	float	rotation_speed;
 	float	player_angle;
@@ -59,16 +63,17 @@ typedef struct s_data
 
 typedef struct s_game
 {
-	t_data	data;
-	int		player_x;
-	int		player_y;
-	int		map_h;
-	int		map_w;
-	char	**map;
+	t_data		data;
+	t_player	player;
+	int			player_x;
+	int			player_y;
+	int			map_h;
+	int			map_w;
+	char		**map;
 }	t_game;
 
 /*				engine functions					*/
-int		engine_start(t_game *game);
+int		engine_start(t_game *game, t_player *player);
 void	print_error(char *error);
 void	init_game(t_game *game);
 int		ft_strcmp(const char *s1, const char *s2);
