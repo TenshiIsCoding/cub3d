@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/10/20 15:41:27 by azaher           ###   ########.fr       */
+/*   Updated: 2023/10/31 17:17:46 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,20 @@
 # include <stdlib.h>
 # include <mlx.h>
 # define DISP_SIZE 64
+
+# define K_P 112
+# define K_I 105
+# define K_R 114
+# define K_PLUS 61
+# define K_MINUS 45
+# define K_Q 113
+# define K_W 119
+# define K_E 101
+# define K_F 102
+# define K_S 115
+# define K_A 97
+# define K_D 100
+# define ESC 65307
 
 typedef struct s_map
 {

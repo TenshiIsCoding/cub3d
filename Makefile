@@ -6,14 +6,15 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/27 16:49:53 by azaher            #+#    #+#              #
-#    Updated: 2023/10/20 15:49:36 by azaher           ###   ########.fr        #
+#    Updated: 2023/10/31 17:14:36 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS = src/main.c \
 	   src/engine/engine_start.c
 CFLAGS= -Wall -Wextra -Werror -I ./libraries/libft
-FLAGS = -framework opengl ${LIBFT} ${LIBMLX} -framework Appkit
+FLAGS = -L ./libraries/minilibx -lmlx -lm -lX11 -lXext ${LIBFT}
+#-framework opengl ${LIBFT} ${LIBMLX} -framework Appkit
 NAME = cub3D
 OBJ = $(SRCS:.c=.o)
 LIBFT=libraries/libft/libft.a
