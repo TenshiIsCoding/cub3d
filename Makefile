@@ -6,12 +6,14 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/27 16:49:53 by azaher            #+#    #+#              #
-#    Updated: 2023/10/31 17:14:36 by azaher           ###   ########.fr        #
+#    Updated: 2023/11/03 02:45:41 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS = src/main.c \
-	   src/engine/engine_start.c
+	   src/engine/engine_start.c \
+	   src/engine/drawing_tools.c \
+	   src/engine/engine_tools.c
 CFLAGS= -Wall -Wextra -Werror -I ./libraries/libft
 FLAGS = -L ./libraries/minilibx -lmlx -lm -lX11 -lXext ${LIBFT}
 #-framework opengl ${LIBFT} ${LIBMLX} -framework Appkit

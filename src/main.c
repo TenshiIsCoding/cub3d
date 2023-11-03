@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:44:11 by azaher            #+#    #+#             */
-/*   Updated: 2023/10/30 15:45:56 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/03 03:28:31 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,15 @@ int	main(int argc, char **argv)
 		return (printf("Usage: ./cub3D [map.cub]\n"));
 	game.map_h = 4;
 	game.map_w = 9;
-	game.map = ft_split("111111111,1P0000001,100000001,111111111",',');
+	game.map = ft_split("111111111,100000001,10P000001,111111111",',');
 	game.data.mlx = mlx_init();
 	game.data.mlx_win = mlx_new_window(game.data.mlx, game.map_w * DISP_SIZE, game.map_h * DISP_SIZE, "Cub3D");
-	mlx_hook(game.data.mlx_win, 17, 0L, close_window, game.data.mlx);
+	mlx_hook(game.data.mlx_win, 17, 0, close_window, &game.data);
 	engine_start(&game, &game.player);
+	mlx_hook(game.data.mlx_win, 2, 1L << 0, &move_player, &game.data);
+	// mlx_hook(game.data.mlx_win, 2, 1L << 0, key_press, &game.data);
+	// mlx_hook(game.data.mlx_win, 3, 1L << 0, key_release, &game.data);
+	// mlx_loop_hook(game.data.mlx ,move_player, &game.data);
 	mlx_loop(game.data.mlx);
 	(void)argv;
 }
