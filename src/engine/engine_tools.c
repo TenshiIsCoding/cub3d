@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 02:42:25 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/03 03:02:29 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/14 14:07:46 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,40 @@
 
 int	key_press(int keycode, t_game *g)
 {
-    if (keycode == ESC)
-    {
-        exit (0);
-    }
-    if (keycode == K_W)
-        g->data.w = 1;
-    if (keycode == K_A)
-        g->data.a = 1;
-    if (keycode == K_S)
-        g->data.s = 1;
-    if (keycode == K_D)
+	if (keycode == ESC)
+		exit (0);
+	if (keycode == K_W)
+		g->player.walk_dir = +1;
+	if (keycode == K_S)
+		g->player.walk_dir = -1;
+	if (keycode == K_A)
+		g->player.cwalk_dir = -1;
+	if (keycode == K_D)
+		g->player.cwalk_dir = +1;
+	if (keycode == K_ARRL)
+		g->player.turn_dir = -1;
+	if (keycode == K_ARRR)
 	{
-        g->data.d = 1;
+		g->player.turn_dir = +1;
 	}
 	return (0);
 }
 
 int	key_release(int keycode, t_game *g)
 {
-    if (keycode == K_W)
-        g->data.w = 0;
-    if (keycode == K_A)
-        g->data.a = 0;
-    if (keycode == K_S)
-        g->data.s = 0;
-    if (keycode == K_D)
-	{
-        g->data.d = 0;
-	}
+	if (keycode == ESC)
+		exit (0);
+	if (keycode == K_W)
+		g->player.walk_dir = 0;
+	if (keycode == K_S)
+		g->player.walk_dir = 0;
+	if (keycode == K_A)
+		g->player.cwalk_dir = 0;
+	if (keycode == K_D)
+		g->player.cwalk_dir = 0;
+	if (keycode == K_ARRL)
+		g->player.turn_dir = 0;
+	if (keycode == K_ARRR)
+		g->player.turn_dir = 0;
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   drawing_tools.c                                    :+:      :+:    :+:   */
+/*   graphics_tools.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 00:54:26 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/03 02:12:00 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/13 16:15:10 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	draw_circle(t_game *game, int i, int j, int radius)
 		}
 		x++;
 	}
-	game->player.xpos = (DISP_SIZE * i);
-	game->player.ypos = (DISP_SIZE * j);
+	game->player.xpos = (float)(DISP_SIZE * i);
+	game->player.ypos = (float)(DISP_SIZE * j);
 }
 
 void	draw_player(t_game *game, int i, int j, int radius)

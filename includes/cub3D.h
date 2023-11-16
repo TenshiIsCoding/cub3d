@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/03 02:50:48 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/16 14:19:47 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,12 @@
 # define K_S 115
 # define K_A 97
 # define K_D 100
+# define K_ARRR 65363
+# define K_ARRL 65361
 # define ESC 65307
-
-typedef struct s_map
-{
-	char	**map;
-	int		w_map;
-	int		h_map;
-	int		s_map;
-}	t_map;
+# define FOV (1.0472)
+# define W_WIDTH 960
+# define W_HEIGHT 540
 
 typedef struct s_player
 {
@@ -53,9 +50,11 @@ typedef struct s_player
 	int		radius;
 	int		turn_dir;
 	int		walk_dir;
-	int		velo;
+	int		cwalk_dir;
+	float	velo;
 	float	rotation_speed;
 	float	player_angle;
+	float	rayAngle;
 }	t_player;
 
 typedef struct s_data
@@ -73,10 +72,6 @@ typedef struct s_data
 	char	*s_texture;
 	int		f;
 	int		c;
-	int		w;
-	int		a;
-	int		s;
-	int		d;
 }	t_data;
 
 typedef struct s_game
@@ -91,19 +86,21 @@ typedef struct s_game
 }	t_game;
 
 /*				engine functions					*/
+
 void	draw_2d_space(t_data *data, int i, int j);
 void	draw_player(t_game *game, int i, int j, int radius);
 void	draw_circle(t_game *game, int i, int j, int radius);
 void	my_put_pixel(t_data *data, int x, int y, int color);
 void	init_player(t_player *player);
 void	render_player(t_game *game, t_player *player);
-int		move_player(int keycode, t_game *g);
+int		update_player(t_game *g);
 void	draw_2d_wall(t_data *data, int i, int j);
-void	draw_2d_empty(t_data *data, int i, int j) ;
+void	draw_2d_empty(t_data *data, int i, int j);
+void	cast_rays(t_game *g);
+int		collided_wall(float x, float y, t_game *g, int mode);
 int		engine_start(t_game *game, t_player *player);
-int    key_press(int keycode, t_game *g);
-int    key_release(int keycode, t_game *g);
-int		move_player(int keycode, t_game *game);
+int		key_press(int keycode, t_game *g);
+int		key_release(int keycode, t_game *g);
 void	print_error(char *error);
 void	init_game(t_game *game);
 int		ft_strcmp(const char *s1, const char *s2);
