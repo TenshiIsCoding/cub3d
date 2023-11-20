@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 09:50:43 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/16 14:24:05 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/20 12:03:37 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ void	my_put_pixel(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-//TODO:
-//protect WIDTH AND HEIGHT
 	dst = data->addr + (y * data->line_length + x * (data->bbp / 8));
 	*(unsigned int *)dst = color;
 }
@@ -45,8 +43,8 @@ void	init_player(t_player *player)
 {
 	player->turn_dir = 0;
 	player->walk_dir = 0;
-	player->velo = 0.3;
-	player->rotation_speed =  (M_PI / 500);
+	player->velo = 0.4;
+	player->rotation_speed = (M_PI / 500);
 	player->player_angle = 3 * (M_PI / 2);
 }
 
@@ -82,11 +80,11 @@ void	render_map(t_game *game)
 		while (game->map[i][j])
 		{
 			if (game->map[i][j] == '1')
-				draw_2d_wall(&game->data, j, i);
+				draw_2d_wall(game, &game->data, j, i);
 			else if (game->map[i][j] == '0' || game->map[i][j] == 'P')
-				draw_2d_space(&game->data, j, i);
+				draw_2d_space(game, &game->data, j, i);
 			else if (game->map[i][j] == ' ')
-				draw_2d_empty(&game->data, j, i);
+				draw_2d_empty(game, &game->data, j, i);
 			j++;
 		}
 		i++;
@@ -130,7 +128,11 @@ int check_ray_collision(float x, float y, t_game *g)
 
 	map_x = floor(x / DISP_SIZE);
 	map_y = floor(y / DISP_SIZE);
-	return ((g->map[map_y][map_x] == '1'));
+	// printf("map x : %d/ map y: %d\n", map_x, map_y);
+	return (g->map[map_y][map_x] == '1' \
+			|| g->map[map_y][map_x] == '\n' \
+			|| g->map[map_y][map_x] == '\0' \
+			|| g->map[map_y][map_x] == ' '  );
 }
 
 int	collided_wall(float x, float y, t_game *g, int mode)
@@ -143,7 +145,7 @@ int	collided_wall(float x, float y, t_game *g, int mode)
 	step = (float)g->player.walk_dir * g->player.velo;
 	cstep = (float)g->player.cwalk_dir * g->player.velo;
 	if (step != 0)
-	{	
+	{
 		x += cos(pAngle) * step;
 		y += sin(pAngle) * step;
 	}
@@ -193,6 +195,8 @@ int	engine_start(t_game *game, t_player *player)
 	game->map_h * DISP_SIZE);
 	game->data.addr = mlx_get_data_addr(game->data.img \
 	, &game->data.bbp, &game->data.line_length, &game->data.endian);
+	game->surface_scale = 20.0 / (game->map_w * game->map_h);
+	printf("%f\n", game->surface_scale);
 	render_map(game);
 	render_player(game, player);
 	(void)player;
