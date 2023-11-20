@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:44:11 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/20 12:03:16 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/20 18:45:20 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 		return (printf("Usage: ./cub3D [map.cub]\n"));
 	game.map_h = 5;
 	game.map_w = 9;
-	game.map = ft_split("11111111 ,100000001,10P010101,101000111,111111111",',');
+	game.map = ft_split("11111111 ,100000011,10S010101,101000111,111111111",',');
 	game.data.mlx = mlx_init();
 	game.data.mlx_win = mlx_new_window(game.data.mlx, W_WIDTH, W_HEIGHT, "Cub3D");
 	mlx_hook(game.data.mlx_win, 17, 0, close_window, &game.data);

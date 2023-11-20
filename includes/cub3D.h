@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/20 12:00:07 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/20 18:41:32 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <mlx.h>
 
 # define DISP_SIZE 64
+# define WALL_CWIDTH 1
 # define K_W 119
 # define K_E 101
 # define K_F 102
@@ -41,7 +42,6 @@ typedef struct s_rays
 {
 	float	rayAngle[W_WIDTH];
 	float	ray_distance[W_WIDTH];
-	float	wall_height[W_WIDTH];
 	float	inter_x[W_WIDTH];
 	float	inter_y[W_WIDTH];
 }	t_rays;
@@ -85,6 +85,9 @@ typedef struct s_game
 	int			map_h;
 	int			map_w;
 	float		surface_scale;
+	float		wall_height;
+	float		sky_size;
+	float		floor_size;
 	char		**map;
 }	t_game;
 
@@ -95,10 +98,15 @@ void	draw_2d_space(t_game *g, t_data *data, int i, int j);
 void	draw_player(t_game *game, int i, int j, int radius);
 void	draw_circle(t_game *game, int i, int j, int radius);
 void	my_put_pixel(t_data *data, int x, int y, int color);
+void	draw_sky(t_game *g, int x, int skysize);
+void	draw_wall(t_game *g, int x, int skysize, int wallheight);
+void	draw_floor(t_game *g, int x,  double floorsize, double wallheight);
+int		render_3d_scene(t_game *g);
 void	init_player(t_player *player);
 void	render_player(t_game *game, t_player *player);
 int		update_player(t_game *g);
 void	draw_2d_wall(t_game *g, t_data *data, int i, int j);
+void	draw_collumn(t_game *g, int x, int y, int length);
 void	draw_2d_empty(t_game *g, t_data *data, int i, int j);
 void	cast_rays(t_game *g);
 int		collided_wall(float x, float y, t_game *g, int mode);
