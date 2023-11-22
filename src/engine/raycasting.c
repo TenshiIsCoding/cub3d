@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:09:39 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/20 18:49:00 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/21 09:36:48 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	draw_line(t_game *g, int idx, int length)
 	{
 		next_x =  x + (i * cos(g->rays.rayAngle[idx]));
 		next_y = y + (i * sin(g->rays.rayAngle[idx]));
-		if (collided_wall(next_x, next_y, g, 1))
+		if (collided_wall(next_x, next_y, g, 1) || collided_wall(next_x, next_y + 1, g, 1))
 		{
 			g->rays.inter_x[idx] = next_x;
 			g->rays.inter_y[idx] = next_y;

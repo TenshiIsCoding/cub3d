@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 02:42:25 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/14 14:07:46 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/22 09:56:57 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,16 @@ int	key_release(int keycode, t_game *g)
 	if (keycode == K_ARRR)
 		g->player.turn_dir = 0;
 	return (0);
+}
+
+void	my_put_pixel(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x > W_WIDTH)
+		x = W_WIDTH;
+	if (y > W_HEIGHT)
+		y = W_HEIGHT;
+	dst = data->addr + (y * data->line_length + x * (data->bbp / 8));
+	*(unsigned int *)dst = color;
 }
