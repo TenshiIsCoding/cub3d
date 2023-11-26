@@ -6,12 +6,11 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 02:42:25 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/22 09:56:57 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/22 12:23:08 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
-
 
 int	key_press(int keycode, t_game *g)
 {
@@ -63,4 +62,47 @@ void	my_put_pixel(t_data *data, int x, int y, int color)
 		y = W_HEIGHT;
 	dst = data->addr + (y * data->line_length + x * (data->bbp / 8));
 	*(unsigned int *)dst = color;
+}
+
+void	set_player(t_game *game, int i, int j)
+{
+	if (game->map[i][j] == 'S')
+	{
+		draw_circle(game, j, i, DISP_SIZE / 8);
+		game->player.player_angle = 90 * (M_PI / 180);
+	}
+	else if (game->map[i][j] == 'N')
+	{
+		draw_circle(game, j, i, DISP_SIZE / 8);
+		game->player.player_angle = 270 * (M_PI / 180);
+	}
+	else if (game->map[i][j] == 'W')
+	{
+		draw_circle(game, j, i, DISP_SIZE / 8);
+		game->player.player_angle = 180 * (M_PI / 180);
+	}
+	else if (game->map[i][j] == 'E')
+	{
+		draw_circle(game, j, i, DISP_SIZE / 8);
+		game->player.player_angle = 0;
+	}
+}
+
+void	render_player(t_game *game, t_player *player)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	init_player(player);
+	while (game->map[i])
+	{
+		j = 0;
+		while (game->map[i][j])
+		{
+			set_player(game, i, j);
+			j++;
+		}
+		i++;
+	}
 }

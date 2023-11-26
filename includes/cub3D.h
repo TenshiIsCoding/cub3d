@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/21 12:22:11 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/26 11:27:15 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@
 # define FOV (1.0472)
 # define W_WIDTH 960
 # define W_HEIGHT 540
+# define NORTH 360
+# define SOUTH 180
+# define EAST 90
+# define WEST 270
 
 typedef struct s_rays
 {
@@ -44,6 +48,8 @@ typedef struct s_rays
 	float	ray_distance[W_WIDTH];
 	float	inter_x[W_WIDTH];
 	float	inter_y[W_WIDTH];
+	int		ray_wall_coll[W_WIDTH];
+	int		ray_direction[W_WIDTH];
 }	t_rays;
 
 typedef struct s_player
@@ -101,6 +107,7 @@ void	my_put_pixel(t_data *data, int x, int y, int color);
 void	draw_sky(t_game *g, int x, int skysize);
 void	draw_wall(t_game *g, int x, int skysize, int wallheight);
 void	draw_floor(t_game *g, int x,  double floorsize, double wallheight);
+void	set_ray_data(t_game *g, int idx, float next_x, float next_y);
 int		render_3d_scene(t_game *g);
 void	init_player(t_player *player);
 void	render_player(t_game *game, t_player *player);

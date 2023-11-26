@@ -6,54 +6,11 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 09:50:43 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/22 10:13:45 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/26 12:09:14 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
-
-void	set_player(t_game *game, int i, int j)
-{
-	if (game->map[i][j] == 'S')
-	{
-		draw_circle(game, j, i, DISP_SIZE / 8);
-		game->player.player_angle = 90 * (M_PI / 180);
-	}
-	else if (game->map[i][j] == 'N')
-	{
-		draw_circle(game, j, i, DISP_SIZE / 8);
-		game->player.player_angle = 270 * (M_PI / 180);
-	}
-	else if (game->map[i][j] == 'W')
-	{
-		draw_circle(game, j, i, DISP_SIZE / 8);
-		game->player.player_angle = 180 * (M_PI / 180);
-	}
-	else if (game->map[i][j] == 'E')
-	{
-		draw_circle(game, j, i, DISP_SIZE / 8);
-		game->player.player_angle = 0;
-	}
-}
-
-void	render_player(t_game *game, t_player *player)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	init_player(player);
-	while (game->map[i])
-	{
-		j = 0;
-		while (game->map[i][j])
-		{
-			set_player(game, i, j);
-			j++;
-		}
-		i++;
-	}
-}
 
 void	render_map(t_game *game)
 {
@@ -85,15 +42,15 @@ void	render_map(t_game *game)
 int	render_3d_scene(t_game *g)
 {
 	int		i;
-	float	rayDistance;
+	float	raydistance;
 
 	i = 0;
 	g->Projection_distance = (float)(W_WIDTH / 2) / tan(FOV / 2);
-	while(i < W_WIDTH)
+	while (i < W_WIDTH)
 	{
-		rayDistance = g->rays.ray_distance[i] \
+		raydistance = g->rays.ray_distance[i] \
 			* cos(g->rays.rayAngle[i] - g->player.player_angle);
-		g->wall_height = (DISP_SIZE / rayDistance) * g->Projection_distance;
+		g->wall_height = (DISP_SIZE / raydistance) * g->Projection_distance;
 		g->sky_size = (W_HEIGHT / 2.0) - (g->wall_height / 2.0);
 		g->floor_size = (W_HEIGHT / 2.0) + (g->wall_height / 2.0);
 		if (g->wall_height > W_HEIGHT)
@@ -108,13 +65,13 @@ int	render_3d_scene(t_game *g)
 
 int	update_player(t_game *g)
 {
-	float step;
-	float cstep;
+	float	step;
+	float	cstep;
 
 	g->player.player_angle += g->player.turn_dir * g->player.rotation_speed;
 	step = (float)g->player.walk_dir * g->player.velo;
 	cstep = (float)g->player.cwalk_dir * g->player.velo;
-	if(!collided_wall(g->player.xpos, g->player.ypos, g, 0))
+	if (!collided_wall(g->player.xpos, g->player.ypos, g, 0))
 	{	
 		if (step != 0)
 		{	
@@ -127,9 +84,10 @@ int	update_player(t_game *g)
 			g->player.ypos += sin(g->player.player_angle + M_PI_2) * cstep;
 		}
 	}
-	(render_3d_scene(g),render_map(g));
+	(render_3d_scene(g), render_map(g));
 	draw_player(g, g->player.xpos, g->player.ypos, DISP_SIZE / 8);
 	cast_rays(g);
+	// printf("%f\n", g->rays.rayAngle[W_WIDTH / 2]);
 	mlx_put_image_to_window(g->data.mlx, g->data.mlx_win, \
 	g->data.img, 0, 0);
 	return (0);

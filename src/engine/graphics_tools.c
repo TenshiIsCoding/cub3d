@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 00:54:26 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/22 10:00:24 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/26 12:14:55 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	draw_2d_wall(t_game *g, t_data *data, int i, int j)
 		y = 0;
 		while (y < DISP_SIZE)
 		{
-			my_put_pixel(data,  g->surface_scale * (x + (DISP_SIZE * i)), g->surface_scale *  (y + (DISP_SIZE * j)), \
-			0x0B1747);
+			my_put_pixel(data, g->surface_scale * (x + (DISP_SIZE * i)), \
+				g->surface_scale * (y + (DISP_SIZE * j)), 0x0B1747);
 			y++;
 		}
 		x++;
@@ -46,36 +46,35 @@ void	draw_sky(t_game *g, int x, int skysize)
 	y = 0;
 	while (y < skysize)
 	{
-		my_put_pixel(&g->data, x , y, 0xFFFFFF);
+		my_put_pixel(&g->data, x, y, 0xFFFFFF);
 		y++;
 	}
-	// printf("%d\n", y);
 }
 
 void	draw_wall(t_game *g, int x, int skysize, int wallheight)
 {
-	(void)wallheight;
 	int	y;
 
+	(void)wallheight;
 	y = skysize;
 	while (y < W_HEIGHT)
 	{
 		if (y >= 0 && y < W_HEIGHT)
-			my_put_pixel(&g->data, x , y, 0x0B1747);
+			my_put_pixel(&g->data, x, y, 0x0B1747);
 		y++;
 	}
 }
 
-void	draw_floor(t_game *g, int x,  double floorsize, double wallheight)
+void	draw_floor(t_game *g, int x, double floorsize, double wallheight)
 {
-	(void)wallheight;
 	double	y;
 
+	(void)wallheight;
 	y = floorsize;
-	while(y < W_HEIGHT)
+	while (y < W_HEIGHT)
 	{
 		if (y >= 0 && y < W_HEIGHT)
-			my_put_pixel(&g->data, x , y, 0x808080);
+			my_put_pixel(&g->data, x, y, 0x808080);
 		y++;
 	}
 }
