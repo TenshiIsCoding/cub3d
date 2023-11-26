@@ -20,12 +20,14 @@
 # include <unistd.h>
 # include "../libft/libft.h"
 
-size_t	ft_strlen(const char *s);
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_strchr(const char *str, int c);
-char	*ft_mstrcat(char *s1, char *s2, char *dest);
-// char	*ft_strjoin(char *s1, char *s2);
-void	free_buff(char **p);
+int		ft_strchr_gnl(char *s, int c);
+char	*ft_strjoin_gnl(char *s1, char *s2);
+size_t	ft_strlen_gnl(char *c);
+char	*ft_res_gnl(char *s1, char *s2, char *p);
+char	*ft_substr_gnl(char *s, unsigned int start, size_t len);
 char	*get_next_line(int fd);
+char	*ft_second(char *buf);
+char	*ft_first(char	*buf);
+char	*ft_read(int fd, char *buf);
 
 #endif

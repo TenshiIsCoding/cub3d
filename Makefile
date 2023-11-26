@@ -11,10 +11,17 @@
 # **************************************************************************** #
 
 SRCS = src/main.c \
-	   src/engine/engine_start.c
-CFLAGS= -Wall -Wextra -Werror -I ./libraries/libft
+	   src/engine/engine_start.c \
+	   src/parsing/parsing.c \
+	   src/parsing/parse_info.c \
+	   src/parsing/pars_utils.c \
+	   src/parsing/check_file.c \
+	   src/parsing/parse_map.c \
+	   libraries/get_next_line/get_next_line.c \
+	   libraries/get_next_line/get_next_line_utils.c 
+ 
+CFLAGS= -Wall -Wextra -Werror -fsanitize=address -g3
 FLAGS = -L ./libraries/minilibx -lmlx -lm -lX11 -lXext ${LIBFT}
-#-framework opengl ${LIBFT} ${LIBMLX} -framework Appkit
 NAME = cub3D
 OBJ = $(SRCS:.c=.o)
 LIBFT=libraries/libft/libft.a
@@ -27,14 +34,14 @@ $(NAME) : $(OBJ) $(LIBFT) $(LIBMLX)
 	gcc $(OBJ) $(CFLAGS) $(FLAGS) -o $(NAME)
 
 $(LIBFT):
-	make -C ./libraries/libft/
+	make -s -C ./libraries/libft/
 
 $(LIBMLX):
-	make -C ./libraries/minilibx/
+	make -s -C ./libraries/minilibx/
 
 clean :
-	make -C ./libraries/libft clean
-	make -C  ./libraries/minilibx clean
+	make -s -C ./libraries/libft clean
+	make -s -C  ./libraries/minilibx clean
 	rm -rf ${LIBFT}
 	rm -rf ${LIBMLX}
 	rm -f $(OBJ)  

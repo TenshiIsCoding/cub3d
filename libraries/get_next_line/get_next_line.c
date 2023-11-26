@@ -12,110 +12,90 @@
 
 #include "get_next_line.h"
 
-int	nlsize(char *s)
+char	*ft_read(int fd, char *buf)
+{
+	char	*new_buf;
+	ssize_t	r;
+
+	r = 1;
+	new_buf = malloc(BUFFER_SIZE + 1);
+	
+	if (!new_buf)
+		return (NULL);
+	while (r != 0 && !ft_strchr_gnl(buf, '\n'))
+	{
+		r = read(fd, new_buf, BUFFER_SIZE);
+		if (r == -1)
+		{
+			free(new_buf);
+			free (buf);
+			return (NULL);
+		}
+		new_buf[r] = '\0';
+		buf = ft_strjoin_gnl(buf, new_buf);
+	}
+	free (new_buf);
+	return (buf);
+}	
+
+char	*ft_first(char	*buf)
 {
 	size_t	i;
+	char	*b;
 
 	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == '\n')
-		{
-			i++;
-			break ;
-		}
+	if (!ft_strlen_gnl(buf))
+		return (NULL);
+	while (buf[i] && buf[i] != '\n')
 		i++;
-	}
-	return (i);
+	if (buf[i] == '\n')
+		i++;
+	b = ft_substr_gnl(buf, 0, i);
+	if (!b)
+		return (NULL);
+	return (b);
 }
 
-char	*after_nline_store(char *buf_read)
+char	*ft_second(char *buf)
 {
-	int		i;
-	int		j;
-	char	*dst;
+	size_t	i;
+	char	*b;
+	size_t	j;
 
 	i = 0;
-	while (buf_read[i] && buf_read[i] != '\n')
-		i++;
-	if (!buf_read[i])
-	{
-		free(buf_read);
-		return (NULL);
-	}
-	dst = ft_calloc(ft_strlen(buf_read) - i + 1, 1);
-	if (!dst)
-		return (NULL);
-	i++;
 	j = 0;
-	while (buf_read[i])
-		dst[j++] = buf_read[i++];
-	dst[j] = '\0';
-	free(buf_read);
-	return (dst);
-}
-
-char	*before_nline_store(char *buf_read, char *s)
-{
-	size_t	i;
-
-	i = 0;
-	if (!buf_read[0])
-	{
-		free(s);
-		return (0);
-	}
-	while (buf_read[i] != '\0' && buf_read[i] != '\n')
-	{
-		s[i] = buf_read[i];
+	while (buf[i] && buf[i] != '\n')
 		i++;
-	}
-	if (buf_read[i] == '\n')
-		s[i] = '\n';
-	return (s);
-}
-
-char	*read_line(char *buf_read, int fd)
-{
-	char	*buff;
-	int		size_ret;
-
-	size_ret = 1;
-	buff = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
-	while (!ft_strchr(buff, '\n') && size_ret)
+	if (buf[i] == '\n')
+		i++;
+	if (ft_strlen_gnl(buf) == i)
 	{
-		if (buff)
-			size_ret = read(fd, buff, BUFFER_SIZE);
-		if (!buff || size_ret == -1)
-		{
-			if (buff)
-				free_buff(&buff);
-			if (buf_read)
-				free_buff(&buf_read);
-			return (0);
-		}
-		buff[size_ret] = '\0';
-		buf_read = ft_strjoin(buf_read, buff);
+		free (buf);
+		return (NULL);
 	}
-	free_buff(&buff);
-	return (buf_read);
+	b = malloc(ft_strlen_gnl(buf) - i + 1);
+	if (!b)
+	{
+		free (buf);
+		return (NULL);
+	}
+	while (buf[i])
+		b[j++] = buf[i++];
+	free (buf);
+	return (b[j] = '\0', b);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*s;
-	static char	*buf_read;
-	size_t		i;
+	static char	*buf;
+	char		*bef;
 
-	if (fd < 0 || BUFFER_SIZE < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buf_read = read_line(buf_read, fd);
-	if (!buf_read)
-		return (0);
-	i = nlsize(buf_read);
-	i++;
-	s = ft_calloc(i, sizeof(char));
-	s = before_nline_store(buf_read, s);
-	buf_read = after_nline_store(buf_read);
-	return (s);
+	buf = ft_read(fd, buf);
+	if (!buf)
+		return (NULL);
+	bef = ft_first(buf);
+	buf = ft_second(buf);
+	return (bef);
 }

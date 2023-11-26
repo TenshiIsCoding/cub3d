@@ -86,6 +86,31 @@ typedef struct s_game
 	char		**map;
 }	t_game;
 
+typedef	struct s_check_info
+{
+	char	*key;
+	char	**value;
+}	t_check_info;
+
+typedef	struct s_parsing
+{
+	int				fd;
+	char			*map_str;
+	int				on_off;
+	int				num_info;
+	char			*no;
+	char			*so;
+	char			*we;
+	char			*ea;
+	char			*f;
+	char			*c;
+	int				f_color;
+	int				c_color;
+	int				player_exit;
+	t_check_info	*info;
+	char			**map_2d;
+}	t_parsing;
+
 /*				engine functions					*/
 int		engine_start(t_game *game, t_player *player);
 void	print_error(char *error);
@@ -93,5 +118,22 @@ void	init_game(t_game *game);
 int		ft_strcmp(const char *s1, const char *s2);
 void	free_2d(char **arr);
 int		arrlen(char **arr);
-
+/*				parsing functions					*/
+char	*parsing(int argc, char **av);
+void	func_error(char *str);
+int		check_file_name(char *str);
+void	init_struct(t_parsing *s_pars);
+// int		empty_line(char *str);
+void	parse_info(t_parsing *s_pars,char *temp1);
+void	stock_info(t_parsing *s_pars, char **arr_2d);
+int		stock_colors(t_parsing *s_pars, char **arr_2d);
+int		parse_colors(char *arr);
+int		get_color(char **arr_2d);
+int		calculate_comma(char	*str);
+int		get_color_num(char	*str, int	i);
+/*Parse Map*/
+void	parse_map(t_parsing *s_pars, char *temp1);
+void	check_free_lines(char *arr);
+int		empty_line(char	*str);
+void	is_it_full_walls(char *str);
 #endif
