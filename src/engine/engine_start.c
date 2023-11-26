@@ -6,161 +6,105 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 09:50:43 by azaher            #+#    #+#             */
-/*   Updated: 2023/10/20 15:46:26 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/26 12:09:14 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-void	my_put_pixel(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bbp / 8));
-	*(unsigned int *)dst = color;
-}
-
-void	draw_2d_wall(t_data *data, int i, int j)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	while (x < DISP_SIZE)
-	{
-		y = 0;
-		while (y < DISP_SIZE)
-		{
-			my_put_pixel(data, x + (DISP_SIZE * i), y + (DISP_SIZE * j), \
-			0x00FF0000);
-			y++;
-		}
-		x++;
-	}
-}
-
-void	draw_circle(t_game *game, int i, int j, int radius)
-{
-	int	x;
-	int	y;
-
-	x = -radius;
-	while (x < radius)
-	{
-		y = -radius;
-		while (y < radius)
-		{
-			if (x * x + y * y <= radius * radius)
-			{
-				my_put_pixel(&game->data, x + (DISP_SIZE * i), \
-				y + (DISP_SIZE * j), 0x00000000);
-			}
-			y++;
-		}
-		x++;
-	}
-	game->player.xpos = x + (DISP_SIZE * i);
-	game->player.ypos = y + (DISP_SIZE * j);
-}
-
-void	draw_2d_space(t_data *data, int i, int j)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	while (x < DISP_SIZE)
-	{
-		y = 0;
-		while (y < DISP_SIZE)
-		{
-			if (x == 0 || y == 0)
-				my_put_pixel(data, x + (DISP_SIZE * i), y + (DISP_SIZE * j), \
-			0x000000);
-			else
-				my_put_pixel(data, x + (DISP_SIZE * i), y + (DISP_SIZE * j), \
-			0xFFFFFF);
-			y++;
-		}
-		x++;
-	}
-}
-
-void	draw_2d_empty(t_data *data, int i, int j)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	while (x < DISP_SIZE)
-	{
-		y = 0;
-		while (y < DISP_SIZE)
-		{
-			my_put_pixel(data, x + (DISP_SIZE * i), y + (DISP_SIZE * j), \
-			0x00000000);
-			y++;
-		}
-		x++;
-	}
-}
-
-void	init_player(t_player *player)
-{
-	player->turn_dir = 0;
-	player->walk_dir = 0;
-	player->velocity = 4.0;
-	player->rotation_speed = 3 * (M_PI / 180);
-	player->player_angle = M_PI / 2;
-}
-
-void	render_player(t_game *game, t_player *player)
+void	render_map(t_game *game)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	init_player(player);
-	while (game->map[i])
-	{
-		j = 0;
-		while (game->map[i][j])
-		{
-			if (game->map[i][j] == 'P')
-				draw_circle(game, j, i, DISP_SIZE / 8);
-			j++;
-		}
-		i++;
-	}
-}
-
-int	engine_start(t_game *game, t_player *player)
-{
-	int			i;
-	int			j;
-
-	i = 0;
-	game->data.img = mlx_new_image(game->data.mlx, game->map_w * DISP_SIZE, \
-	game->map_h * DISP_SIZE);
-	game->data.addr = mlx_get_data_addr(game->data.img \
-	, &game->data.bbp, &game->data.line_length, &game->data.endian);
 	while (game->map[i])
 	{
 		j = 0;
 		while (game->map[i][j])
 		{
 			if (game->map[i][j] == '1')
-				draw_2d_wall(&game->data, j, i);
-			else if (game->map[i][j] == '0' || game->map[i][j] == 'P')
-				draw_2d_space(&game->data, j, i);
+				draw_2d_wall(game, &game->data, j, i);
+			else if (game->map[i][j] == '0' || game->map[i][j] == 'S')
+				draw_2d_space(game, &game->data, j, i);
+			else if (game->map[i][j] == 'N' || game->map[i][j] == 'E')
+				draw_2d_space(game, &game->data, j, i);
+			else if (game->map[i][j] == 'W')
+				draw_2d_space(game, &game->data, j, i);
 			else if (game->map[i][j] == ' ')
-				draw_2d_empty(&game->data, j, i);
+				draw_2d_empty(game, &game->data, j, i);
 			j++;
 		}
 		i++;
 	}
+}
+
+int	render_3d_scene(t_game *g)
+{
+	int		i;
+	float	raydistance;
+
+	i = 0;
+	g->Projection_distance = (float)(W_WIDTH / 2) / tan(FOV / 2);
+	while (i < W_WIDTH)
+	{
+		raydistance = g->rays.ray_distance[i] \
+			* cos(g->rays.rayAngle[i] - g->player.player_angle);
+		g->wall_height = (DISP_SIZE / raydistance) * g->Projection_distance;
+		g->sky_size = (W_HEIGHT / 2.0) - (g->wall_height / 2.0);
+		g->floor_size = (W_HEIGHT / 2.0) + (g->wall_height / 2.0);
+		if (g->wall_height > W_HEIGHT)
+			g->wall_height = W_HEIGHT;
+		draw_sky(g, i, g->sky_size);
+		draw_wall(g, i, g->sky_size, g->wall_height);
+		draw_floor(g, i, g->floor_size, g->wall_height);
+		i++;
+	}
+	return (0);
+}
+
+int	update_player(t_game *g)
+{
+	float	step;
+	float	cstep;
+
+	g->player.player_angle += g->player.turn_dir * g->player.rotation_speed;
+	step = (float)g->player.walk_dir * g->player.velo;
+	cstep = (float)g->player.cwalk_dir * g->player.velo;
+	if (!collided_wall(g->player.xpos, g->player.ypos, g, 0))
+	{	
+		if (step != 0)
+		{	
+			g->player.xpos += cos(g->player.player_angle) * step;
+			g->player.ypos += sin(g->player.player_angle) * step;
+		}
+		if (g->player.cwalk_dir == 1 || g->player.cwalk_dir == -1)
+		{	
+			g->player.xpos += cos(g->player.player_angle + M_PI_2) * cstep;
+			g->player.ypos += sin(g->player.player_angle + M_PI_2) * cstep;
+		}
+	}
+	(render_3d_scene(g), render_map(g));
+	draw_player(g, g->player.xpos, g->player.ypos, DISP_SIZE / 8);
+	cast_rays(g);
+	// printf("%f\n", g->rays.rayAngle[W_WIDTH / 2]);
+	mlx_put_image_to_window(g->data.mlx, g->data.mlx_win, \
+	g->data.img, 0, 0);
+	return (0);
+}
+
+int	engine_start(t_game *game, t_player *player)
+{
+	game->data.img = mlx_new_image(game->data.mlx, W_WIDTH, \
+	W_HEIGHT);
+	game->data.addr = mlx_get_data_addr(game->data.img \
+	, &game->data.bbp, &game->data.line_length, &game->data.endian);
+	game->surface_scale = 20.0 / (game->map_w * game->map_h);
+	if (game->surface_scale > 0.4)
+		game->surface_scale = 0.4;
+	render_map(game);
 	render_player(game, player);
-	printf("pos x: %f pos y: %f\n", game->player.xpos, game->player.ypos);
+	cast_rays(game);
 	mlx_put_image_to_window(game->data.mlx, game->data.mlx_win, \
 	game->data.img, 0, 0);
 	return (0);

@@ -6,7 +6,7 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/27 16:49:53 by azaher            #+#    #+#              #
-#    Updated: 2023/10/31 17:14:36 by azaher           ###   ########.fr        #
+#    Updated: 2023/11/22 10:01:15 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,14 @@ SRCS = src/main.c \
 	   src/parsing/check_file.c \
 	   src/parsing/parse_map.c \
 	   libraries/get_next_line/get_next_line.c \
-	   libraries/get_next_line/get_next_line_utils.c 
+	   libraries/get_next_line/get_next_line_utils.c \
+	   src/engine/engine_tools.c \
+	   src/engine/engine_tools_2.c \
+	   src/engine/graphics_tools.c \
+	   src/engine/graphics_tools_2.c \
+	   src/engine/raycasting.c
  
-CFLAGS= -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS= -Wall -Wextra -Werror -O3  -I ./libraries/libft -fsanitize=address -g3
 FLAGS = -L ./libraries/minilibx -lmlx -lm -lX11 -lXext ${LIBFT}
 NAME = cub3D
 OBJ = $(SRCS:.c=.o)

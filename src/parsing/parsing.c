@@ -58,7 +58,7 @@ char	*get_map(t_parsing *s_pars)
 	return ("DONE");// i should change it
 }
 
-char	*parsing(int argc, char **av)
+char	*parsing(t_game *s_game,int argc, char **av)
 {
 	t_parsing	s_pars;
 
@@ -83,7 +83,7 @@ char	*parsing(int argc, char **av)
 	free(s_pars.f);
 	free(s_pars.c);
 	free(s_pars.info);
-	free_2d(s_pars.map_2d);
+	s_game->map  = s_pars.map_2d;
 	close (s_pars.fd);//check why we should close fd
 	return ("DONE");
 }

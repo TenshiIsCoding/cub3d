@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/10/31 17:17:46 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/26 11:27:15 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,35 @@
 # include <math.h>
 # include <stdlib.h>
 # include <mlx.h>
-# define DISP_SIZE 64
 
-# define K_P 112
-# define K_I 105
-# define K_R 114
-# define K_PLUS 61
-# define K_MINUS 45
-# define K_Q 113
+# define DISP_SIZE 64
+# define WALL_CWIDTH 1
 # define K_W 119
 # define K_E 101
 # define K_F 102
 # define K_S 115
 # define K_A 97
 # define K_D 100
+# define K_ARRR 65363
+# define K_ARRL 65361
 # define ESC 65307
+# define FOV (1.0472)
+# define W_WIDTH 960
+# define W_HEIGHT 540
+# define NORTH 360
+# define SOUTH 180
+# define EAST 90
+# define WEST 270
 
-typedef struct s_map
+typedef struct s_rays
 {
-	char	**map;
-	int		w_map;
-	int		h_map;
-	int		s_map;
-}	t_map;
+	float	rayAngle[W_WIDTH];
+	float	ray_distance[W_WIDTH];
+	float	inter_x[W_WIDTH];
+	float	inter_y[W_WIDTH];
+	int		ray_wall_coll[W_WIDTH];
+	int		ray_direction[W_WIDTH];
+}	t_rays;
 
 typedef struct s_player
 {
@@ -53,7 +59,8 @@ typedef struct s_player
 	int		radius;
 	int		turn_dir;
 	int		walk_dir;
-	float	velocity;
+	int		cwalk_dir;
+	float	velo;
 	float	rotation_speed;
 	float	player_angle;
 }	t_player;
@@ -79,10 +86,14 @@ typedef struct s_game
 {
 	t_data		data;
 	t_player	player;
-	int			player_x;
-	int			player_y;
+	t_rays		rays;
+	float		Projection_distance;
 	int			map_h;
 	int			map_w;
+	float		surface_scale;
+	float		wall_height;
+	float		sky_size;
+	float		floor_size;
 	char		**map;
 }	t_game;
 
@@ -112,14 +123,35 @@ typedef	struct s_parsing
 }	t_parsing;
 
 /*				engine functions					*/
+
+void	print_2d(char **map);
+void	draw_2d_space(t_game *g, t_data *data, int i, int j);
+void	draw_player(t_game *game, int i, int j, int radius);
+void	draw_circle(t_game *game, int i, int j, int radius);
+void	my_put_pixel(t_data *data, int x, int y, int color);
+void	draw_sky(t_game *g, int x, int skysize);
+void	draw_wall(t_game *g, int x, int skysize, int wallheight);
+void	draw_floor(t_game *g, int x,  double floorsize, double wallheight);
+void	set_ray_data(t_game *g, int idx, float next_x, float next_y);
+int		render_3d_scene(t_game *g);
+void	init_player(t_player *player);
+void	render_player(t_game *game, t_player *player);
+int		update_player(t_game *g);
+void	draw_2d_wall(t_game *g, t_data *data, int i, int j);
+void	draw_collumn(t_game *g, int x, int y, int length);
+void	draw_2d_empty(t_game *g, t_data *data, int i, int j);
+void	cast_rays(t_game *g);
+int		collided_wall(float x, float y, t_game *g, int mode);
 int		engine_start(t_game *game, t_player *player);
+int		key_press(int keycode, t_game *g);
+int		key_release(int keycode, t_game *g);
 void	print_error(char *error);
 void	init_game(t_game *game);
 int		ft_strcmp(const char *s1, const char *s2);
 void	free_2d(char **arr);
 int		arrlen(char **arr);
 /*				parsing functions					*/
-char	*parsing(int argc, char **av);
+char	*parsing(t_game *s_game,int argc, char **av);
 void	func_error(char *str);
 int		check_file_name(char *str);
 void	init_struct(t_parsing *s_pars);
