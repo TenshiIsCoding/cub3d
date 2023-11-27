@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:09:39 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/26 12:09:38 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/27 13:47:55 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,53 +27,49 @@ void	set_ray_data(t_game *g, int idx, float next_x, float next_y)
 	g->rays.ray_distance[idx] = set_ray_distance(g, idx);
 }
 
-void	draw_line(t_game *g, int idx, int length)
+void	set_wall_intersection(t_game *g, float first_coord, float second_coord, int idx)
 {
-	float	x;
-	float	y;
+	float	result;
+
+	result = first_coord - second_coord;
+	if (result < 0 && g->rays.ray_wall_coll[idx] == VERTICAL)
+		g->rays.ray_direction[idx] = WEST;
+	else if (result > 0 && g->rays.ray_wall_coll[idx] == VERTICAL)
+		g->rays.ray_direction[idx] = EAST;
+	else if (result < 0 && g->rays.ray_wall_coll[idx] == HORIZONTAL)
+		g->rays.ray_direction[idx] = SOUTH;
+	else if (result > 0 && g->rays.ray_wall_coll[idx] == HORIZONTAL)
+		g->rays.ray_direction[idx] = NORTH;
+}
+
+void	draw_line(t_game *g, int idx)
+{
 	float	next_x;
 	float	next_y;
 	int		i;
 
-	x = g->player.xpos;
-	y = g->player.ypos;
-	i = 0;
-	while (i < length)
+	next_y = g->player.ypos;
+	i = -1;
+	while (1)
 	{
-		next_x = x + (i * cos(g->rays.rayAngle[idx]));
-		next_y = y + (i * sin(g->rays.rayAngle[idx]));
-		if (collided_wall(next_x, next_y, g, 1) || \
-			collided_wall(next_x, next_y + 1, g, 1))
+		next_x = g->player.xpos + (++i * cos(g->rays.rayAngle[idx]));
+		if (collided_wall(next_x, next_y, g, 1))
 		{
+			g->rays.ray_wall_coll[idx] = VERTICAL;
+			set_wall_intersection(g, g->player.xpos, next_x, idx);
+			set_ray_data(g, idx, next_x, next_y);
+			return ;
+		}
+		next_y = g->player.ypos + (i * sin(g->rays.rayAngle[idx]));
+		if (collided_wall(next_x, next_y, g, 1))
+		{
+			g->rays.ray_wall_coll[idx] = HORIZONTAL;
+			set_wall_intersection(g, g->player.ypos, next_y, idx);
 			set_ray_data(g, idx, next_x, next_y);
 			return ;
 		}
 		my_put_pixel(&g->data, g->surface_scale * next_x, \
 			g->surface_scale * next_y, 0xFFFF00);
-		i++;
-	}
-}
-void	set_ray_direction(t_game *g, int ncolumn, float rayangle)
-{
-	if (rayangle >= (M_PI / 4) && rayangle < ((3 * M_PI) / 4))
-		g->rays.ray_direction[ncolumn] = SOUTH;
-	else if (rayangle >= ((5 * M_PI) / 4) && rayangle < ((7 * M_PI) / 4))
-		g->rays.ray_direction[ncolumn] = NORTH;
-	else if (rayangle >= ((3 * M_PI) / 4) && rayangle < ((5 * M_PI) / 4))
-		g->rays.ray_direction[ncolumn] = WEST;
-	else if ((rayangle >= 0 && rayangle < (M_PI / 4)) || (rayangle >= 0 && rayangle < ((7 * M_PI) / 4)))
-		g->rays.ray_direction[ncolumn] = EAST;
-
-	if (ncolumn == W_WIDTH / 2)
-	{
-		if (g->rays.ray_direction[ncolumn] == SOUTH)
-			printf("SOUTH\n");
-		else if (g->rays.ray_direction[ncolumn] == NORTH)
-			printf("NORTH\n");
-		else if (g->rays.ray_direction[ncolumn] == EAST)
-			printf("EAST\n");
-		else if (g->rays.ray_direction[ncolumn] == WEST)
-			printf("WEST\n");
 	}
 }
 
@@ -91,13 +87,15 @@ void	cast_rays(t_game *g)
 	while (ncolumn < W_WIDTH)
 	{
 		anglebuff = g->rays.rayAngle[ncolumn];
-		draw_line(g, ncolumn, 1000);
+		draw_line(g, ncolumn);
 		ncolumn++;
+		if (ncolumn < W_WIDTH)
+		{
 		g->rays.rayAngle[ncolumn] = anglebuff + FOV / W_WIDTH;
 		if (g->rays.rayAngle[ncolumn] > (2 * M_PI))
 			g->rays.rayAngle[ncolumn] -= (2 * M_PI);
 		else if (g->rays.rayAngle[ncolumn] < 0)
 			g->rays.rayAngle[ncolumn] += (2 * M_PI);
-		set_ray_direction(g, ncolumn, g->rays.rayAngle[ncolumn]);
+		}
 	}
 }

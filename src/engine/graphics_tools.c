@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 00:54:26 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/26 12:14:55 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/27 12:09:29 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	init_player(t_player *player)
 {
 	player->turn_dir = 0;
 	player->walk_dir = 0;
-	player->velo = 0.4;
-	player->rotation_speed = (M_PI / 500);
+	player->velo = 1;
+	player->rotation_speed = (M_PI / 200);
 }
 
 void	draw_2d_wall(t_game *g, t_data *data, int i, int j)
@@ -60,7 +60,16 @@ void	draw_wall(t_game *g, int x, int skysize, int wallheight)
 	while (y < W_HEIGHT)
 	{
 		if (y >= 0 && y < W_HEIGHT)
-			my_put_pixel(&g->data, x, y, 0x0B1747);
+		{
+			if (g->rays.ray_direction[x] == NORTH)
+				my_put_pixel(&g->data, x, y, 0xFF0000);
+			else if (g->rays.ray_direction[x] == SOUTH)
+				my_put_pixel(&g->data, x, y, 0x00FF00);
+			else if (g->rays.ray_direction[x] == WEST)
+				my_put_pixel(&g->data, x, y, 0x0000FF);
+			else if (g->rays.ray_direction[x] == EAST)
+				my_put_pixel(&g->data, x, y, 0xFFFF00);
+		}
 		y++;
 	}
 }

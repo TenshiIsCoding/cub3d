@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/26 11:27:15 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/27 11:42:07 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <mlx.h>
 
 # define DISP_SIZE 64
-# define WALL_CWIDTH 1
 # define K_W 119
 # define K_E 101
 # define K_F 102
@@ -35,12 +34,14 @@
 # define K_ARRL 65361
 # define ESC 65307
 # define FOV (1.0472)
-# define W_WIDTH 960
-# define W_HEIGHT 540
+# define W_WIDTH 1280
+# define W_HEIGHT 720
 # define NORTH 360
 # define SOUTH 180
 # define EAST 90
 # define WEST 270
+# define VERTICAL 1
+# define HORIZONTAL 0
 
 typedef struct s_rays
 {
