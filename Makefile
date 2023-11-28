@@ -6,7 +6,7 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/27 16:49:53 by azaher            #+#    #+#              #
-#    Updated: 2023/11/27 10:50:05 by azaher           ###   ########.fr        #
+#    Updated: 2023/11/28 16:56:26 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRCS = src/main.c \
 	   src/engine/graphics_tools_2.c \
 	   src/engine/raycasting.c
  
-CFLAGS= -Wall -Wextra -Werror -O3  -I ./libraries/libft
+CFLAGS= -Wall -Wextra -Werror -O3  -I ./libraries/libft 
 FLAGS = -L ./libraries/minilibx -lmlx -lm -lX11 -lXext ${LIBFT}
 NAME = cub3D
 OBJ = $(SRCS:.c=.o)

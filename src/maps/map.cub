@@ -2,12 +2,12 @@
 
 F 220,100,0
 
-NO       ./path_to_the_north_texture
+NO       ./src/textures/GHZBG.xpm
 C            225,230,0
-SO        ./path_to_the_south_texture          
-EA ./path_to_the_east_texture
+SO        ./src/textures/GHZBG.xpm          
+EA ./src/textures/GHZBG.xpm
 
-WE ./path_to_the_west_texture
+WE ./src/textures/GHZBG.xpm
 
 111111111111111111
 100000000000000001

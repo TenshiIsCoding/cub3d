@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:44:11 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/27 11:27:05 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/28 16:56:59 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	main(int argc, char **argv)
 {
 	t_game	game;
 	
-	parsing(&game, argc, argv);
 	// game.map = ft_split("111,1E1,111",',');
 	// game.map = ft_split("11111111 ,100000101,10E000011,101001011,111111111",',');
+	parsing(&game, argc, argv);
 	game.data.mlx = mlx_init();
 	game.data.mlx_win = mlx_new_window(game.data.mlx, W_WIDTH, W_HEIGHT, "Cub3D");
 	mlx_hook(game.data.mlx_win, 17, 0, close_window, &game.data);

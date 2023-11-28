@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:09:39 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/27 13:47:55 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/28 17:01:21 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	draw_line(t_game *g, int idx)
 			set_ray_data(g, idx, next_x, next_y);
 			return ;
 		}
-		my_put_pixel(&g->data, g->surface_scale * next_x, \
-			g->surface_scale * next_y, 0xFFFF00);
+		// my_put_pixel(&g->data, g->surface_scale * next_x, 
+		// 	g->surface_scale * next_y, 0xFFFF00);
 	}
 }
 

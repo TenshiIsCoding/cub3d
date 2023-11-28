@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adadoun <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 10:46:52 by adadoun           #+#    #+#             */
-/*   Updated: 2023/11/23 10:49:22 by adadoun          ###   ########.fr       */
+/*   Updated: 2023/11/28 17:04:27 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,26 @@ char	*get_map(t_parsing *s_pars)
 	return ("DONE");// i should change it
 }
 
+// void init_text_array(t_game *g)
+// {
+// 	int i;
+
+// 	i = -1;
+// 	while(++i < 4)
+// 	{
+// 		printf("%s\n", g->arr_text[i].path);
+// 		g->arr_text[i].image = mlx_xpm_file_to_image(g->data.mlx, g->arr_text[i].path, \
+// 				&g->arr_text[i].w, &g->arr_text[i].h);
+// 		if (!g->arr_text[i].image)
+// 		{
+// 			func_error("Invalid path to texture\n");
+// 			exit (1);
+// 		}
+// 		g->arr_text[i].addr =  mlx_get_data_addr(g->arr_text[i].image, &g->arr_text[i].tbbp, \
+// 		&g->arr_text[i].tline_length, &g->arr_text[i].tendian);
+// 	}	
+// }
+
 char	*parsing(t_game *s_game,int argc, char **av)
 {
 	t_parsing	s_pars;
@@ -76,6 +96,12 @@ char	*parsing(t_game *s_game,int argc, char **av)
 	// int i = -1;
 	// while(s_pars.map_2d[++i])
 	// 	printf("%s\n", s_pars.map_2d[i]);
+	s_game->map  = s_pars.map_2d;
+	// s_game->arr_text[N_IDX].path = s_pars.no;
+	// s_game->arr_text[S_IDX].path = s_pars.so;
+	// s_game->arr_text[W_IDX].path = s_pars.we;
+	// s_game->arr_text[E_IDX].path = s_pars.ea;
+	// init_text_array(s_game);
 	free(s_pars.no);
 	free(s_pars.so);
 	free(s_pars.we);
@@ -83,7 +109,6 @@ char	*parsing(t_game *s_game,int argc, char **av)
 	free(s_pars.f);
 	free(s_pars.c);
 	free(s_pars.info);
-	s_game->map  = s_pars.map_2d;
 	close (s_pars.fd);//check why we should close fd
 	return ("DONE");
 }

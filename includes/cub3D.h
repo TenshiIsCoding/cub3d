@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/27 11:42:07 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/28 17:04:16 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,22 @@
 # define WEST 270
 # define VERTICAL 1
 # define HORIZONTAL 0
+# define N_IDX 0
+# define S_IDX 1
+# define W_IDX 2
+# define E_IDX 3
+
+// typedef struct s_textures
+// {
+// 	char	*path;
+// 	void	*image;
+// 	char	*addr;
+// 	int		tbbp;
+// 	int		tline_length;
+// 	int		tendian;
+// 	int		w;
+// 	int		h;
+// }	t_textures;
 
 typedef struct s_rays
 {
@@ -85,6 +101,7 @@ typedef struct s_data
 
 typedef struct s_game
 {
+	// t_textures	arr_text[4];
 	t_data		data;
 	t_player	player;
 	t_rays		rays;
