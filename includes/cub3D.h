@@ -66,6 +66,19 @@ typedef struct s_player
 	float	player_angle;
 }	t_player;
 
+typedef struct s_textures
+{
+	char	*path;
+	void	*image;
+	char	*addr;
+	int		bbp;
+	int		line_length;
+	int		endian;
+	int		w;
+	int		h;
+
+}	t_textures;
+
 typedef struct s_data
 {
 	void	*mlx;
@@ -85,6 +98,7 @@ typedef struct s_data
 
 typedef struct s_game
 {
+	t_textures	arr_text[4];
 	t_data		data;
 	t_player	player;
 	t_rays		rays;
