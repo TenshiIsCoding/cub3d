@@ -12,7 +12,6 @@
 
 #include "libft.h"
 
-
 static int	nword(const char *s, char c)
 {
 	int		nb;
