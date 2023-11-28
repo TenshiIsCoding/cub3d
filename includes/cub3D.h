@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/27 19:05:08 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/27 11:42:07 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,6 @@ typedef struct s_player
 	float	player_angle;
 }	t_player;
 
-typedef struct s_textures
-{
-	char	*path;
-	void	*image;
-	char	*addr;
-	int		bbp;
-	int		line_length;
-	int		endian;
-	int		w;
-	int		h;
-
-}	t_textures;
-
 typedef struct s_data
 {
 	void	*mlx;
@@ -98,7 +85,6 @@ typedef struct s_data
 
 typedef struct s_game
 {
-	t_textures	arr_text[4];
 	t_data		data;
 	t_player	player;
 	t_rays		rays;

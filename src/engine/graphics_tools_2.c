@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 09:53:21 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/28 15:26:33 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/27 13:22:01 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,25 @@
 
 void	draw_circle(t_game *game, int i, int j, int radius)
 {
-	(void)radius;
+	int	x;
+	int	y;
+
+	x = -radius;
+	while (x < radius)
+	{
+		y = -radius;
+		while (y < radius)
+		{
+			if (x * x + y * y <= radius * radius)
+			{
+				my_put_pixel(&game->data, game->surface_scale * 
+				(x + (DISP_SIZE * i)), 
+				game->surface_scale * (y + (DISP_SIZE * j)), 0x00000000);
+			}
+			y++;
+		}
+		x++;
+	}
 	game->player.xpos = (float)(DISP_SIZE * i) + (DISP_SIZE / 2);
 	game->player.ypos = (float)(DISP_SIZE * j) + (DISP_SIZE / 2);
 }

@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 09:50:43 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/28 15:32:10 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/27 13:22:37 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ int	update_player(t_game *g)
 			g->player.ypos += sin(g->player.player_angle + M_PI_2) * cstep;
 		}
 	}
-	render_3d_scene(g);
-	// draw_player(g, g->player.xpos, g->player.ypos, DISP_SIZE / 8);
+	(render_3d_scene(g), render_map(g));
+	draw_player(g, g->player.xpos, g->player.ypos, DISP_SIZE / 8);
 	cast_rays(g);
 	// printf("%f\n", g->rays.rayAngle[W_WIDTH / 2]);
 	mlx_put_image_to_window(g->data.mlx, g->data.mlx_win, \
@@ -102,7 +102,7 @@ int	engine_start(t_game *game, t_player *player)
 	game->surface_scale = 20.0 / (game->map_w * game->map_h);
 	if (game->surface_scale > 0.4)
 		game->surface_scale = 0.4;
-	// render_map(game);
+	render_map(game);
 	render_player(game, player);
 	cast_rays(game);
 	mlx_put_image_to_window(game->data.mlx, game->data.mlx_win, \
