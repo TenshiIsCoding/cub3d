@@ -6,11 +6,47 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 02:42:25 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/26 11:26:36 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:18:38 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
+
+// unsigned int	my_pixel_get(t_textures *text, int x, int y)
+// {
+//     char	dst;
+
+// 	if (x > W_WIDTH)
+// 		x = W_WIDTH;
+// 	if (y > W_HEIGHT)
+// 		y = W_HEIGHT;
+// 	dst = text->addr + (y text->line_length + x * (text->bbp / 8));
+// 	return((unsigned int)dst);
+// }
+
+// int    get_pixel_color(t_data data, int i, int h, int dir)
+// {
+//     double        tex_scale;
+//     double        x;
+//     double        y;
+
+//     tex_scale = (double)data->text[dir].h / h;
+//     if (dir == S_IDX || dir == N_IDX)
+//     {
+//         x = (((int)data->ray.ray_x % DISP_SIZE) data->text[dir].width) / DISP_SIZE;
+//         y = (i - (W_HEIGHT / 2 - wall_height / 2)) * tex_scale;
+//     }
+//     if (dir == E_TEXT  dir == W_TEXT)
+//     {
+//         x = (((int)data->ray.ray_y % 64) * data->text[dir].w) / TILE_SIZE;
+//         y = (i - (HEIGHT / 2 - h / 2)) * tex_scale;
+//     }
+//     if (x > data->text[dir].w  y > data->text[dir].w)
+//     {
+//         return (0);
+//     }
+//     return (my_mlx_pixel_get(&data->text[dir], x, y));
+// }
 
 int	check_collision(float x, float y, t_game *g)
 {
