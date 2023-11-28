@@ -6,23 +6,23 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 02:42:25 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/28 15:16:27 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:18:38 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-unsigned int	my_pixel_get(t_textures *text, int x, int y)
-{
-    char	dst;
+// unsigned int	my_pixel_get(t_textures *text, int x, int y)
+// {
+//     char	dst;
 
-	if (x > W_WIDTH)
-		x = W_WIDTH;
-	if (y > W_HEIGHT)
-		y = W_HEIGHT;
-	dst = text->addr + (y text->line_length + x * (text->bbp / 8));
-	return((unsigned int)dst);
-}
+// 	if (x > W_WIDTH)
+// 		x = W_WIDTH;
+// 	if (y > W_HEIGHT)
+// 		y = W_HEIGHT;
+// 	dst = text->addr + (y text->line_length + x * (text->bbp / 8));
+// 	return((unsigned int)dst);
+// }
 
 // int    get_pixel_color(t_data data, int i, int h, int dir)
 // {
