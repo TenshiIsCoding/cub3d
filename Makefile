@@ -6,7 +6,7 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/27 16:49:53 by azaher            #+#    #+#              #
-#    Updated: 2023/11/27 10:50:05 by azaher           ###   ########.fr        #
+#    Updated: 2023/11/28 12:49:14 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ LIBMLX=libraries/minilibx/libmlx.a
 all : $(NAME)
 
 $(NAME) : $(OBJ) $(LIBFT) $(LIBMLX)
-	gcc $(OBJ) $(CFLAGS) $(FLAGS) -o $(NAME)
+	gcc $(OBJ) $(CFLAGS) $(FLAGS) -o $(NAME) -no-pie
 
 $(LIBFT):
 	make -s -C ./libraries/libft/
