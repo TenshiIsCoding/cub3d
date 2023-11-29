@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:09:39 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/28 17:01:21 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/29 17:04:11 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	set_ray_data(t_game *g, int idx, float next_x, float next_y)
 	g->rays.ray_distance[idx] = set_ray_distance(g, idx);
 }
 
-void	set_wall_intersection(t_game *g, float first_coord, float second_coord, int idx)
+void	set_wall_intersection(t_game *g, float f_coord, float s_coord, int idx)
 {
 	float	result;
 
-	result = first_coord - second_coord;
+	result = f_coord - s_coord;
 	if (result < 0 && g->rays.ray_wall_coll[idx] == VERTICAL)
 		g->rays.ray_direction[idx] = WEST;
 	else if (result > 0 && g->rays.ray_wall_coll[idx] == VERTICAL)
@@ -52,7 +52,7 @@ void	draw_line(t_game *g, int idx)
 	i = -1;
 	while (1)
 	{
-		next_x = g->player.xpos + (++i * cos(g->rays.rayAngle[idx]));
+		next_x = g->player.xpos + (++i * cos(g->rays.rayangle[idx]));
 		if (collided_wall(next_x, next_y, g, 1))
 		{
 			g->rays.ray_wall_coll[idx] = VERTICAL;
@@ -60,7 +60,7 @@ void	draw_line(t_game *g, int idx)
 			set_ray_data(g, idx, next_x, next_y);
 			return ;
 		}
-		next_y = g->player.ypos + (i * sin(g->rays.rayAngle[idx]));
+		next_y = g->player.ypos + (i * sin(g->rays.rayangle[idx]));
 		if (collided_wall(next_x, next_y, g, 1))
 		{
 			g->rays.ray_wall_coll[idx] = HORIZONTAL;
@@ -68,8 +68,6 @@ void	draw_line(t_game *g, int idx)
 			set_ray_data(g, idx, next_x, next_y);
 			return ;
 		}
-		// my_put_pixel(&g->data, g->surface_scale * next_x, 
-		// 	g->surface_scale * next_y, 0xFFFF00);
 	}
 }
 
@@ -79,23 +77,23 @@ void	cast_rays(t_game *g)
 	float	anglebuff;
 
 	ncolumn = 0;
-	g->rays.rayAngle[ncolumn] = g->player.player_angle - (FOV / 2);
-	if (g->rays.rayAngle[ncolumn] > (2 * M_PI))
-		g->rays.rayAngle[ncolumn] -= (2 * M_PI);
-	else if (g->rays.rayAngle[ncolumn] < 0)
-		g->rays.rayAngle[ncolumn] += (2 * M_PI);
+	g->rays.rayangle[ncolumn] = g->player.player_angle - (FOV / 2);
+	if (g->rays.rayangle[ncolumn] > (2 * M_PI))
+		g->rays.rayangle[ncolumn] -= (2 * M_PI);
+	else if (g->rays.rayangle[ncolumn] < 0)
+		g->rays.rayangle[ncolumn] += (2 * M_PI);
 	while (ncolumn < W_WIDTH)
 	{
-		anglebuff = g->rays.rayAngle[ncolumn];
+		anglebuff = g->rays.rayangle[ncolumn];
 		draw_line(g, ncolumn);
 		ncolumn++;
 		if (ncolumn < W_WIDTH)
 		{
-		g->rays.rayAngle[ncolumn] = anglebuff + FOV / W_WIDTH;
-		if (g->rays.rayAngle[ncolumn] > (2 * M_PI))
-			g->rays.rayAngle[ncolumn] -= (2 * M_PI);
-		else if (g->rays.rayAngle[ncolumn] < 0)
-			g->rays.rayAngle[ncolumn] += (2 * M_PI);
+			g->rays.rayangle[ncolumn] = anglebuff + FOV / W_WIDTH;
+			if (g->rays.rayangle[ncolumn] > (2 * M_PI))
+				g->rays.rayangle[ncolumn] -= (2 * M_PI);
+			else if (g->rays.rayangle[ncolumn] < 0)
+				g->rays.rayangle[ncolumn] += (2 * M_PI);
 		}
 	}
 }

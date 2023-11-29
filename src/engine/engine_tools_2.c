@@ -6,11 +6,35 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 02:42:25 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/26 11:26:36 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/29 16:59:01 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
+
+void	fetch_pixel_from_texture(t_game *g, int x, int y, int dir)
+{
+	int		color;
+	double	tx;
+	double	ty;
+	double	text_scale;
+
+	text_scale = (double)g->arr_text[dir].h / g->wall_index;
+	if (dir == N_IDX || dir == S_IDX)
+	{
+		tx = (((int)g->rays.inter_x[x] % DISP_SIZE) * \
+		g->arr_text[dir].w) / DISP_SIZE;
+		ty = (y - g->sky_size) * text_scale;
+	}
+	if (dir == E_IDX || dir == W_IDX)
+	{
+		tx = (((int)g->rays.inter_y[x] % DISP_SIZE) * \
+		g->arr_text[dir].w) / DISP_SIZE;
+		ty = (y - g->sky_size) * text_scale;
+	}
+	color = my_pixel_get(&g->arr_text[dir], tx, ty);
+	my_put_pixel(&g->data, x, y, color);
+}
 
 int	check_collision(float x, float y, t_game *g)
 {
@@ -45,7 +69,6 @@ int	check_ray_collision(float x, float y, t_game *g)
 	int	map_x;
 	int	map_y;
 
-	
 	map_x = floor(x / DISP_SIZE);
 	map_y = floor(y / DISP_SIZE);
 	return (g->map[map_y][map_x] == '1' \
@@ -53,7 +76,6 @@ int	check_ray_collision(float x, float y, t_game *g)
 			|| g->map[map_y][map_x] == '\0' \
 			|| g->map[map_y][map_x] == ' ' );
 }
-
 
 int	collided_wall(float x, float y, t_game *g, int mode)
 {

@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/29 13:28:36 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/29 17:08:37 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_textures
 
 typedef struct s_rays
 {
-	float	rayAngle[W_WIDTH];
+	float	rayangle[W_WIDTH];
 	float	ray_distance[W_WIDTH];
 	float	inter_x[W_WIDTH];
 	float	inter_y[W_WIDTH];
@@ -104,7 +104,7 @@ typedef struct s_game
 	t_data		data;
 	t_player	player;
 	t_rays		rays;
-	float		Projection_distance;
+	float		projdistance;
 	int			map_h;
 	int			map_w;
 	float		surface_scale;
@@ -116,13 +116,13 @@ typedef struct s_game
 	t_textures	arr_text[4];
 }	t_game;
 
-typedef	struct s_check_info
+typedef struct s_check_info
 {
 	char	*key;
 	char	**value;
 }	t_check_info;
 
-typedef	struct s_parsing
+typedef struct s_parsing
 {
 	int				fd;
 	char			*map_str;
@@ -148,10 +148,11 @@ void			draw_2d_space(t_game *g, t_data *data, int i, int j);
 void			draw_player(t_game *game, int i, int j, int radius);
 void			draw_circle(t_game *game, int i, int j, int radius);
 void			my_put_pixel(t_data *data, int x, int y, int color);
+void			fetch_pixel_from_texture(t_game *g, int x, int y, int dir);
 unsigned int	my_pixel_get(t_textures *text, int x, int y);
 void			draw_sky(t_game *g, int x, int skysize);
 void			draw_wall(t_game *g, int x, int skysize, int wallheight);
-void			draw_floor(t_game *g, int x,  double floorsize, double wallheight);
+void			draw_floor(t_game *g, int x, double fsize, double wheight);
 void			set_ray_data(t_game *g, int idx, float next_x, float next_y);
 int				render_3d_scene(t_game *g);
 void			init_player(t_player *player);
@@ -171,18 +172,18 @@ int				ft_strcmp(const char *s1, const char *s2);
 void			free_2d(char **arr);
 int				arrlen(char **arr);
 /*				parsing functions					*/
-char			*parsing(t_game *s_game,int argc, char **av);
+char			*parsing(t_game *s_game, int argc, char **av);
 void			func_error(char *str);
 int				check_file_name(char *str);
 void			init_struct(t_parsing *s_pars);
 // int	empty_line(char *str);
-void			parse_info(t_parsing *s_pars,char *temp1);
+void			parse_info(t_parsing *s_pars, char *temp1);
 void			stock_info(t_parsing *s_pars, char **arr_2d);
 int				stock_colors(t_parsing *s_pars, char **arr_2d);
 int				parse_colors(char *arr);
 int				get_color(char **arr_2d);
 int				calculate_comma(char	*str);
-int				get_color_num(char	*str, int	i);
+int				get_color_num(char *str, int i);
 /*Parse 	Map*/
 void			parse_map(t_parsing *s_pars, char *temp1);
 void			check_free_lines(char *arr);

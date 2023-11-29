@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 09:53:21 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/29 13:19:15 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/29 17:01:37 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 unsigned int	my_pixel_get(t_textures *text, int x, int y)
 {
-    char	*dst;
+	char	*dst;
+
 	if (x < 0 || x > text->w)
-		return 0;
+		return (0);
 	if (y < 0 || y > text->h)
-		return 0;
-	// printf("x: %d y: %d\n", x, y);
+		return (0);
 	dst = text->addr + (y * text->tline_length + x * (text->tbbp / 8));
-	return(*(unsigned int *)dst);
+	return (*(unsigned int *) dst);
 }
 
 void	draw_circle(t_game *game, int i, int j, int radius)

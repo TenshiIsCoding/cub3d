@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 09:50:43 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/29 13:33:07 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/29 17:09:06 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ int	render_3d_scene(t_game *g)
 	float	raydistance;
 
 	i = 0;
-	g->Projection_distance = (float)(W_WIDTH / 2) / tan(FOV / 2);
+	g->projdistance = (float)(W_WIDTH / 2) / tan(FOV / 2);
 	while (i < W_WIDTH)
 	{
 		raydistance = g->rays.ray_distance[i] \
-			* cos(g->rays.rayAngle[i] - g->player.player_angle);
-		g->wall_height = (DISP_SIZE / raydistance) * g->Projection_distance;
+			* cos(g->rays.rayangle[i] - g->player.player_angle);
+		g->wall_height = (DISP_SIZE / raydistance) * g->projdistance;
 		g->sky_size = (W_HEIGHT / 2.0) - (g->wall_height / 2.0);
 		g->floor_size = (W_HEIGHT / 2.0) + (g->wall_height / 2.0);
-		g->wall_index = g->wall_height; 
+		g->wall_index = g->wall_height;
 		if (g->wall_height > W_HEIGHT)
 			g->wall_height = W_HEIGHT;
 		draw_sky(g, i, g->sky_size);
@@ -88,7 +88,6 @@ int	update_player(t_game *g)
 	render_3d_scene(g);
 	// draw_player(g, g->player.xpos, g->player.ypos, DISP_SIZE / 8);
 	cast_rays(g);
-	// printf("%f\n", g->rays.rayAngle[W_WIDTH / 2]);
 	mlx_put_image_to_window(g->data.mlx, g->data.mlx_win, \
 	g->data.img, 0, 0);
 	return (0);
@@ -101,7 +100,8 @@ int	engine_start(t_game *game, t_player *player)
 	game->data.addr = mlx_get_data_addr(game->data.img \
 	, &game->data.bbp, &game->data.line_length, &game->data.endian);
 	game->surface_scale = 20.0 / (game->map_w * game->map_h);
-	// render_map(game);
+	if (game->surface_scale > 0.4)
+		game->surface_scale = 0.4;
 	render_player(game, player);
 	cast_rays(game);
 	mlx_put_image_to_window(game->data.mlx, game->data.mlx_win, \

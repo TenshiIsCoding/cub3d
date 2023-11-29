@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 00:54:26 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/29 13:47:07 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/29 17:09:39 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	init_player(t_player *player)
 {
 	player->turn_dir = 0;
 	player->walk_dir = 0;
-	player->velo = 1;
+	player->velo = 1.5;
 	player->rotation_speed = (M_PI / 200);
 }
 
@@ -51,29 +51,6 @@ void	draw_sky(t_game *g, int x, int skysize)
 	}
 }
 
-void	fetch_pixel_from_texture(t_game *g, int x, int y, int dir)
-{
-	int		color;
-	double	tx;
-	double	ty;
-	double	text_scale;
-	
-	text_scale = (double)g->arr_text[dir].h / g->wall_index;
-	if (dir == N_IDX || dir == S_IDX)
-	{
-		tx = (((int)g->rays.inter_x[x] % DISP_SIZE) * g->arr_text[dir].w) / DISP_SIZE;
-		ty = (y - g->sky_size) * text_scale;
-	}
-	if (dir == E_IDX || dir == W_IDX)
-	{
-		tx = (((int)g->rays.inter_y[x] % DISP_SIZE) * g->arr_text[dir].w) / DISP_SIZE;
-		ty = (y - g->sky_size) * text_scale;
-	}
-	// printf("%d\n", g->arr_text[dir].h);
-	color = my_pixel_get(&g->arr_text[dir], tx, ty);
-	my_put_pixel(&g->data, x, y, color);
-}
-
 void	draw_wall(t_game *g, int x, int skysize, int wallheight)
 {
 	int	y;
@@ -97,12 +74,12 @@ void	draw_wall(t_game *g, int x, int skysize, int wallheight)
 	}
 }
 
-void	draw_floor(t_game *g, int x, double floorsize, double wallheight)
+void	draw_floor(t_game *g, int x, double fsize, double wheight)
 {
 	double	y;
 
-	(void)wallheight;
-	y = floorsize;
+	(void)wheight;
+	y = fsize;
 	while (y < W_HEIGHT)
 	{
 		if (y >= 0 && y < W_HEIGHT)
