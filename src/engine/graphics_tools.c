@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 00:54:26 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/28 16:27:30 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/29 13:47:07 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,32 @@ void	draw_sky(t_game *g, int x, int skysize)
 	y = 0;
 	while (y < skysize)
 	{
-		my_put_pixel(&g->data, x, y, 0xFFFFFF);
+		my_put_pixel(&g->data, x, y, g->data.c);
 		y++;
 	}
+}
+
+void	fetch_pixel_from_texture(t_game *g, int x, int y, int dir)
+{
+	int		color;
+	double	tx;
+	double	ty;
+	double	text_scale;
+	
+	text_scale = (double)g->arr_text[dir].h / g->wall_index;
+	if (dir == N_IDX || dir == S_IDX)
+	{
+		tx = (((int)g->rays.inter_x[x] % DISP_SIZE) * g->arr_text[dir].w) / DISP_SIZE;
+		ty = (y - g->sky_size) * text_scale;
+	}
+	if (dir == E_IDX || dir == W_IDX)
+	{
+		tx = (((int)g->rays.inter_y[x] % DISP_SIZE) * g->arr_text[dir].w) / DISP_SIZE;
+		ty = (y - g->sky_size) * text_scale;
+	}
+	// printf("%d\n", g->arr_text[dir].h);
+	color = my_pixel_get(&g->arr_text[dir], tx, ty);
+	my_put_pixel(&g->data, x, y, color);
 }
 
 void	draw_wall(t_game *g, int x, int skysize, int wallheight)
@@ -62,13 +85,13 @@ void	draw_wall(t_game *g, int x, int skysize, int wallheight)
 		if (y >= 0 && y < W_HEIGHT)
 		{
 			if (g->rays.ray_direction[x] == NORTH)
-				my_put_pixel(&g->data, x, y, 0xFF0000);
+				fetch_pixel_from_texture(g, x, y, N_IDX);
 			else if (g->rays.ray_direction[x] == SOUTH)
-				my_put_pixel(&g->data, x, y, 0x00FF00);
+				fetch_pixel_from_texture(g, x, y, S_IDX);
 			else if (g->rays.ray_direction[x] == WEST)
-				my_put_pixel(&g->data, x, y, 0x0000FF);
+				fetch_pixel_from_texture(g, x, y, W_IDX);
 			else if (g->rays.ray_direction[x] == EAST)
-				my_put_pixel(&g->data, x, y, 0xFFFF00);
+				fetch_pixel_from_texture(g, x, y, E_IDX);
 		}
 		y++;
 	}
@@ -83,7 +106,7 @@ void	draw_floor(t_game *g, int x, double floorsize, double wallheight)
 	while (y < W_HEIGHT)
 	{
 		if (y >= 0 && y < W_HEIGHT)
-			my_put_pixel(&g->data, x, y, 0x808080);
+			my_put_pixel(&g->data, x, y, g->data.f);
 		y++;
 	}
 }

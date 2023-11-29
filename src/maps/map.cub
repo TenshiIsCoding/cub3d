@@ -3,7 +3,7 @@
 F 220,100,0
 
 NO       ./src/textures/GHZBG.xpm
-C            225,230,0
+C            000,000,000
 SO        ./src/textures/GHZBG.xpm          
 EA ./src/textures/GHZBG.xpm
 

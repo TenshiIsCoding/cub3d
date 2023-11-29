@@ -6,11 +6,23 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 09:53:21 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/28 16:22:47 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/29 13:19:15 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
+
+unsigned int	my_pixel_get(t_textures *text, int x, int y)
+{
+    char	*dst;
+	if (x < 0 || x > text->w)
+		return 0;
+	if (y < 0 || y > text->h)
+		return 0;
+	// printf("x: %d y: %d\n", x, y);
+	dst = text->addr + (y * text->tline_length + x * (text->tbbp / 8));
+	return(*(unsigned int *)dst);
+}
 
 void	draw_circle(t_game *game, int i, int j, int radius)
 {

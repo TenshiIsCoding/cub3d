@@ -6,7 +6,7 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/27 16:49:53 by azaher            #+#    #+#              #
-#    Updated: 2023/11/28 16:56:26 by azaher           ###   ########.fr        #
+#    Updated: 2023/11/29 13:41:45 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,30 +25,24 @@ SRCS = src/main.c \
 	   src/engine/graphics_tools_2.c \
 	   src/engine/raycasting.c
  
-CFLAGS= -Wall -Wextra -Werror -O3  -I ./libraries/libft 
-FLAGS = -L ./libraries/minilibx -lmlx -lm -lX11 -lXext ${LIBFT}
+CFLAGS= -Wall -Wextra -Werror -O3  -I ./libraries/libft
+FLAGS =  -lmlx -lm -lX11 -lXext ${LIBFT}
 NAME = cub3D
 OBJ = $(SRCS:.c=.o)
 LIBFT=libraries/libft/libft.a
-LIBMLX=libraries/minilibx/libmlx.a
 
 
 all : $(NAME)
 
-$(NAME) : $(OBJ) $(LIBFT) $(LIBMLX)
+$(NAME) : $(OBJ) $(LIBFT)
 	gcc $(OBJ) $(CFLAGS) $(FLAGS) -o $(NAME) -no-pie
 
 $(LIBFT):
 	make -s -C ./libraries/libft/
 
-$(LIBMLX):
-	make -s -C ./libraries/minilibx/
-
 clean :
 	make -s -C ./libraries/libft clean
-	make -s -C  ./libraries/minilibx clean
 	rm -rf ${LIBFT}
-	rm -rf ${LIBMLX}
 	rm -f $(OBJ)  
 
 fclean : clean

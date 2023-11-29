@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 09:50:43 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/28 17:01:03 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/29 13:33:07 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	render_3d_scene(t_game *g)
 		g->wall_height = (DISP_SIZE / raydistance) * g->Projection_distance;
 		g->sky_size = (W_HEIGHT / 2.0) - (g->wall_height / 2.0);
 		g->floor_size = (W_HEIGHT / 2.0) + (g->wall_height / 2.0);
+		g->wall_index = g->wall_height; 
 		if (g->wall_height > W_HEIGHT)
 			g->wall_height = W_HEIGHT;
 		draw_sky(g, i, g->sky_size);
@@ -100,8 +101,6 @@ int	engine_start(t_game *game, t_player *player)
 	game->data.addr = mlx_get_data_addr(game->data.img \
 	, &game->data.bbp, &game->data.line_length, &game->data.endian);
 	game->surface_scale = 20.0 / (game->map_w * game->map_h);
-	if (game->surface_scale > 0.4)
-		game->surface_scale = 0.4;
 	// render_map(game);
 	render_player(game, player);
 	cast_rays(game);

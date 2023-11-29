@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:42 by azaher            #+#    #+#             */
-/*   Updated: 2023/11/28 17:04:16 by azaher           ###   ########.fr       */
+/*   Updated: 2023/11/29 13:28:36 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,17 @@
 # define W_IDX 2
 # define E_IDX 3
 
-// typedef struct s_textures
-// {
-// 	char	*path;
-// 	void	*image;
-// 	char	*addr;
-// 	int		tbbp;
-// 	int		tline_length;
-// 	int		tendian;
-// 	int		w;
-// 	int		h;
-// }	t_textures;
+typedef struct s_textures
+{
+	char	*path;
+	void	*image;
+	char	*addr;
+	int		tbbp;
+	int		tline_length;
+	int		tendian;
+	int		w;
+	int		h;
+}	t_textures;
 
 typedef struct s_rays
 {
@@ -101,7 +101,6 @@ typedef struct s_data
 
 typedef struct s_game
 {
-	// t_textures	arr_text[4];
 	t_data		data;
 	t_player	player;
 	t_rays		rays;
@@ -110,9 +109,11 @@ typedef struct s_game
 	int			map_w;
 	float		surface_scale;
 	float		wall_height;
+	float		wall_index;
 	float		sky_size;
 	float		floor_size;
 	char		**map;
+	t_textures	arr_text[4];
 }	t_game;
 
 typedef	struct s_check_info
@@ -142,48 +143,49 @@ typedef	struct s_parsing
 
 /*				engine functions					*/
 
-void	print_2d(char **map);
-void	draw_2d_space(t_game *g, t_data *data, int i, int j);
-void	draw_player(t_game *game, int i, int j, int radius);
-void	draw_circle(t_game *game, int i, int j, int radius);
-void	my_put_pixel(t_data *data, int x, int y, int color);
-void	draw_sky(t_game *g, int x, int skysize);
-void	draw_wall(t_game *g, int x, int skysize, int wallheight);
-void	draw_floor(t_game *g, int x,  double floorsize, double wallheight);
-void	set_ray_data(t_game *g, int idx, float next_x, float next_y);
-int		render_3d_scene(t_game *g);
-void	init_player(t_player *player);
-void	render_player(t_game *game, t_player *player);
-int		update_player(t_game *g);
-void	draw_2d_wall(t_game *g, t_data *data, int i, int j);
-void	draw_collumn(t_game *g, int x, int y, int length);
-void	draw_2d_empty(t_game *g, t_data *data, int i, int j);
-void	cast_rays(t_game *g);
-int		collided_wall(float x, float y, t_game *g, int mode);
-int		engine_start(t_game *game, t_player *player);
-int		key_press(int keycode, t_game *g);
-int		key_release(int keycode, t_game *g);
-void	print_error(char *error);
-void	init_game(t_game *game);
-int		ft_strcmp(const char *s1, const char *s2);
-void	free_2d(char **arr);
-int		arrlen(char **arr);
+void			print_2d(char **map);
+void			draw_2d_space(t_game *g, t_data *data, int i, int j);
+void			draw_player(t_game *game, int i, int j, int radius);
+void			draw_circle(t_game *game, int i, int j, int radius);
+void			my_put_pixel(t_data *data, int x, int y, int color);
+unsigned int	my_pixel_get(t_textures *text, int x, int y);
+void			draw_sky(t_game *g, int x, int skysize);
+void			draw_wall(t_game *g, int x, int skysize, int wallheight);
+void			draw_floor(t_game *g, int x,  double floorsize, double wallheight);
+void			set_ray_data(t_game *g, int idx, float next_x, float next_y);
+int				render_3d_scene(t_game *g);
+void			init_player(t_player *player);
+void			render_player(t_game *game, t_player *player);
+int				update_player(t_game *g);
+void			draw_2d_wall(t_game *g, t_data *data, int i, int j);
+void			draw_collumn(t_game *g, int x, int y, int length);
+void			draw_2d_empty(t_game *g, t_data *data, int i, int j);
+void			cast_rays(t_game *g);
+int				collided_wall(float x, float y, t_game *g, int mode);
+int				engine_start(t_game *game, t_player *player);
+int				key_press(int keycode, t_game *g);
+int				key_release(int keycode, t_game *g);
+void			print_error(char *error);
+void			init_game(t_game *game);
+int				ft_strcmp(const char *s1, const char *s2);
+void			free_2d(char **arr);
+int				arrlen(char **arr);
 /*				parsing functions					*/
-char	*parsing(t_game *s_game,int argc, char **av);
-void	func_error(char *str);
-int		check_file_name(char *str);
-void	init_struct(t_parsing *s_pars);
-// int		empty_line(char *str);
-void	parse_info(t_parsing *s_pars,char *temp1);
-void	stock_info(t_parsing *s_pars, char **arr_2d);
-int		stock_colors(t_parsing *s_pars, char **arr_2d);
-int		parse_colors(char *arr);
-int		get_color(char **arr_2d);
-int		calculate_comma(char	*str);
-int		get_color_num(char	*str, int	i);
-/*Parse Map*/
-void	parse_map(t_parsing *s_pars, char *temp1);
-void	check_free_lines(char *arr);
-int		empty_line(char	*str);
-void	is_it_full_walls(char *str);
+char			*parsing(t_game *s_game,int argc, char **av);
+void			func_error(char *str);
+int				check_file_name(char *str);
+void			init_struct(t_parsing *s_pars);
+// int	empty_line(char *str);
+void			parse_info(t_parsing *s_pars,char *temp1);
+void			stock_info(t_parsing *s_pars, char **arr_2d);
+int				stock_colors(t_parsing *s_pars, char **arr_2d);
+int				parse_colors(char *arr);
+int				get_color(char **arr_2d);
+int				calculate_comma(char	*str);
+int				get_color_num(char	*str, int	i);
+/*Parse 	Map*/
+void			parse_map(t_parsing *s_pars, char *temp1);
+void			check_free_lines(char *arr);
+int				empty_line(char	*str);
+void			is_it_full_walls(char *str);
 #endif
